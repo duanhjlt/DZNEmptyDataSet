@@ -132,8 +132,9 @@
     return NO;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
+
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -234,7 +235,7 @@
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

@@ -105,11 +105,6 @@
     return attributedString;
 }
 
-- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
-{
-    return [UIImage imageNamed:nil];
-}
-
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
     NSString *text = @"Search on the App Store";
@@ -128,15 +123,14 @@
     return [UIColor whiteColor];
 }
 
-- (CGPoint)offsetForEmptyDataSet:(UIScrollView *)scrollView
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView
 {
-    return CGPointMake(0, -64.0);
+    return -64.0;
 }
-
 
 #pragma mark - DZNEmptyDataSetDelegate Methods
 
-- (BOOL)emptyDataSetShouldShow:(UIScrollView *)scrollView
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView
 {
     return YES;
 }
@@ -151,13 +145,14 @@
     return YES;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
     NSLog(@"%s",__FUNCTION__);
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
+
     UISearchBar *searchBar = self.searchDisplayController.searchBar;
 
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.com/apps/%@", searchBar.text]];
@@ -292,7 +287,7 @@
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }

@@ -181,33 +181,12 @@
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView
 {
-    if (!self.loading) {
-        return nil;
-    }
-    
-    if (!_loadingView) {
-        _loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
-        
+    if (self.loading) {
         UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activityView.translatesAutoresizingMaskIntoConstraints = NO;
         [activityView startAnimating];
-        [_loadingView addSubview:activityView];
-        
-        UILabel *label = [[UILabel alloc] init];
-        label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = activityView.color;
-        label.font = [UIFont systemFontOfSize:14.0];
-        label.text = @"Loading countries...";
-        [_loadingView addSubview:label];
-        
-        NSDictionary *views = NSDictionaryOfVariableBindings(activityView, label);
-        
-        [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[activityView]|" options:0 metrics:nil views:views]];
-        [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[label]|" options:0 metrics:nil views:views]];
-        [_loadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[activityView][label(25)]|" options:0 metrics:nil views:views]];
+        return activityView;
     }
-    return _loadingView;
+    return nil;
 }
 
 - (CGFloat)spaceHeightForEmptyDataSet:(UIScrollView *)scrollView
@@ -233,15 +212,17 @@
     return YES;
 }
 
-- (void)emptyDataSetDidTapView:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view
 {
+
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
     }
 }
 
-- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapButton:(UIButton *)button
 {
+
     if ([self.searchBar isFirstResponder] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         return;
     }
@@ -272,7 +253,7 @@
         return 0;
     }
     
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
     return [sectionInfo numberOfObjects];
 }
 
@@ -534,7 +515,7 @@
     [self.tableView reloadEmptyDataSet];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
 }
